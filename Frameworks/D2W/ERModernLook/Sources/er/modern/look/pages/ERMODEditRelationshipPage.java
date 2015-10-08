@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang.ObjectUtils;
 
 import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WODisplayGroup;
 import com.webobjects.directtoweb.D2W;
-import com.webobjects.directtoweb.ERD2WUtilities;
 import com.webobjects.directtoweb.EditPageInterface;
 import com.webobjects.directtoweb.NextPageDelegate;
 import com.webobjects.directtoweb.SelectPageInterface;
@@ -41,9 +40,7 @@ import er.extensions.eof.ERXGenericRecord;
 import er.extensions.foundation.ERXArrayUtilities;
 import er.extensions.foundation.ERXStringUtilities;
 import er.extensions.foundation.ERXValueUtilities;
-import er.modern.directtoweb.components.ERMDAjaxNotificationCenter;
 import er.modern.directtoweb.components.buttons.ERMDActionButton;
-import er.modern.directtoweb.components.repetitions.ERMDInspectPageRepetition;
 import er.modern.directtoweb.interfaces.ERMEditRelationshipPageInterface;
 
 /**
@@ -83,7 +80,6 @@ public class ERMODEditRelationshipPage extends ERD2WPage implements ERMEditRelat
 		public static String displayPropertyKeys = "displayPropertyKeys";
 		public static String subTask = "subTask";
 		public static String isEntityCreatable = "isEntityCreatable";
-        public static String shouldShowQueryRelatedButton = "shouldShowQueryRelatedButton";
 		
 	}
 	
@@ -94,7 +90,6 @@ public class ERMODEditRelationshipPage extends ERD2WPage implements ERMEditRelat
 	private EODataSource _dataSource;
 	private EODataSource _selectDataSource;
 	private WODisplayGroup _relationshipDisplayGroup;
-    private Integer _batchSize = null;
 	public boolean isRelationshipToMany;
 	public WOComponent nextPage;
 	public NextPageDelegate nextPageDelegate;
@@ -117,32 +112,59 @@ public class ERMODEditRelationshipPage extends ERD2WPage implements ERMEditRelat
     }
 	
 	// ACTIONS
+    
+    // delete methods ??
 	
-    /**
-     * Perform the displayQueryAction. Sets the inline task to 'query'.
-     */
-	public WOComponent displayQueryAction() {
-		setInlineTaskSafely("query");
-		return null;
-	}
+//    /**
+//     * Perform the displayQueryAction. Sets the inline task to 'query'.
+//     */
+//	public WOComponent displayQueryAction() {
+//		setInlineTaskSafely("query");
+//		return null;
+//	}
+//	
+//	/**
+//	 * Performs the newObjectAction. Creates a new object and sets the inline task
+//	 * to 'create'
+//	 */
+//	public WOComponent newObjectAction() {
+//		EOEditingContext newEc = ERXEC.newEditingContext(masterObject().editingContext());
+//		EOClassDescription relatedObjectClassDescription = masterObject().classDescriptionForDestinationKey(relationshipKey());
+//		EOEnterpriseObject relatedObject = EOUtilities.createAndInsertInstance(newEc, relatedObjectClassDescription.entityName());
+//		EOEnterpriseObject localObj = EOUtilities.localInstanceOfObject(relatedObject.editingContext(), masterObject());
+//		if (localObj instanceof ERXGenericRecord) {
+//			((ERXGenericRecord)localObj).setValidatedWhenNested(false);
+//		}
+//		localObj.addObjectToBothSidesOfRelationshipWithKey(relatedObject, relationshipKey());
+//		setSelectedObject(relatedObject);
+//		setInlineTaskSafely("create");
+//		return null;
+//	}
+//
+//	/** 
+//	 * Perform the returnAction. Called when the page is a non embedded page is returning to the originating
+//	 * edit page.
+//	 */
+//	public WOComponent returnAction() {
+//		
+//		masterObject().editingContext().saveChanges();
+//		WOComponent result = (nextPageDelegate() != null) ? nextPageDelegate().nextPage(this) : super.nextPage();
+//
+//		if (result != null) {
+//			return result;
+//		}
+//
+//		result = (WOComponent)D2W.factory().editPageForEntityNamed(masterObject().entityName(), session());
+//		((EditPageInterface)result).setObject(masterObject());
+//		return result;
+//	}
+//	
+//	/** Should the 'new' button be displayed? */
+//	public boolean isEntityCreatable() {
+//		return ERXValueUtilities.booleanValue(d2wContext().valueForKey(Keys.isEntityCreatable)) && !isEntityReadOnly();
+//	}
 	
-	/**
-	 * Performs the newObjectAction. Creates a new object and sets the inline task
-	 * to 'create'
-	 */
-	public WOComponent newObjectAction() {
-		EOEditingContext newEc = ERXEC.newEditingContext(masterObject().editingContext());
-		EOClassDescription relatedObjectClassDescription = masterObject().classDescriptionForDestinationKey(relationshipKey());
-		EOEnterpriseObject relatedObject = EOUtilities.createAndInsertInstance(newEc, relatedObjectClassDescription.entityName());
-		EOEnterpriseObject localObj = EOUtilities.localInstanceOfObject(relatedObject.editingContext(), masterObject());
-		if (localObj instanceof ERXGenericRecord) {
-			((ERXGenericRecord)localObj).setValidatedWhenNested(false);
-		}
-		localObj.addObjectToBothSidesOfRelationshipWithKey(relatedObject, relationshipKey());
-		setSelectedObject(relatedObject);
-		setInlineTaskSafely("create");
-		return null;
-	}
+	// end delete methods ??
 	
 	/**
 	 * Performs the queryAction. Sets the inline task to 'list'
@@ -167,9 +189,7 @@ public class ERMODEditRelationshipPage extends ERD2WPage implements ERMEditRelat
 				relationshipDisplayGroup().displayBatchContainingSelectedObject();
 			}
 		}
-		setInlineTaskSafely(null);	
-        // support for ERMDAjaxNotificationCenter
-        postChangeNotification();
+ 		setInlineTaskSafely(null);	
 		return null;
 	}
 	
@@ -188,30 +208,7 @@ public class ERMODEditRelationshipPage extends ERD2WPage implements ERMEditRelat
 			relationshipDisplayGroup().displayBatchContainingSelectedObject();
 		}
 		
-        // support for ERMDAjaxNotificationCenter
-        postChangeNotification();
 		return null;
-	}
-	
-	/** 
-	 * Perform the returnAction. Called when the page is a non embedded page is returning to the originating
-	 * edit page.
-	 */
-	public WOComponent returnAction() {
-		
-		masterObject().editingContext().saveChanges();
-		WOComponent result = (nextPageDelegate() != null) ? nextPageDelegate().nextPage(this) : super.nextPage();
-
-		if (result != null) {
-			return result;
-		}
-
-		result = (WOComponent)D2W.factory().editPageForEntityNamed(masterObject().entityName(), session());
-		((EditPageInterface)result).setObject(masterObject());
-
-        // support for ERMDAjaxNotificationCenter
-        postChangeNotification();
-		return result;
 	}
 	
 	/**
@@ -226,29 +223,10 @@ public class ERMODEditRelationshipPage extends ERD2WPage implements ERMEditRelat
 			EOEnterpriseObject obj = (EOEnterpriseObject)userInfo.valueForKey("object");
 			if (relationshipKey() != null && relationshipKey().equals(key) && ERXEOControlUtilities.eoEquals(masterObject(), obj)) {
 				relationshipDisplayGroup().fetch();
-				// when the last object of the last batch gets removed, select the new last batch
-				if (relationshipDisplayGroup().currentBatchIndex() > relationshipDisplayGroup().batchCount()) {
-				    relationshipDisplayGroup().setCurrentBatchIndex(relationshipDisplayGroup().batchCount());
-				}
 			}
 		}
-        if (notif.userInfo().valueForKey("ajaxNotificationCenterId") == null) {
-            // the change notification was not sent from ERMDAjaxNotificationCenter
-            postChangeNotification();
-        }
 	}
-	   
-    private void postChangeNotification() {
-        ERMDInspectPageRepetition parent = ERD2WUtilities.enclosingComponentOfClass(this,
-                ERMDInspectPageRepetition.class);
-        if (ERXValueUtilities.booleanValueWithDefault(
-                parent.valueForKeyPath("d2wContext.shouldObserve"), false)) {
-            NSNotificationCenter.defaultCenter().postNotification(
-                    ERMDAjaxNotificationCenter.PropertyChangedNotification,
-                    parent.valueForKeyPath("d2wContext"));
-        }
-    }
-    
+	
 	// COMPONENT DISPLAY CONTROLS
 	
 	/**
@@ -354,7 +332,15 @@ public class ERMODEditRelationshipPage extends ERD2WPage implements ERMEditRelat
 				setMasterObject(eo);
 		        
 		        setEditingContext(eo.editingContext());
-		        setRelationshipKey(relationshipKey); 
+		        setRelationshipKey(relationshipKey);
+		        
+		        
+		        // JT
+		        EOEntity masterEntity = EOUtilities.entityForObject(masterObject().editingContext(), masterObject());
+				EORelationship rel = masterEntity.relationshipNamed(relationshipKey);
+				d2wContext().takeValueForKey(rel, "parentRelationship");
+		        //JT
+		        
 		        
 		        if (masterObject().isToManyKey(relationshipKey))
 		            isRelationshipToMany = true;
@@ -380,17 +366,17 @@ public class ERMODEditRelationshipPage extends ERD2WPage implements ERMEditRelat
      * @see er.directtoweb.pages.ERD2WPage#settings()
      */
     @Override
-    public NSDictionary<String,Object> settings() {
+    public NSDictionary settings() {
         String pc = d2wContext().dynamicPage();
         if (pc != null) {
             if (d2wContext().valueForKey("currentRelationship") != null) {
                 // set parentRelationship key to allow subcomponents to
                 // reference the correct ID (wonder-140)
-                return new NSDictionary<String,Object>(new Object[] { pc,
-                        d2wContext().valueForKey("currentRelationship") }, new String[] {
+                return new NSDictionary(new Object[] { pc,
+                        d2wContext().valueForKey("currentRelationship") }, new Object[] {
                         "parentPageConfiguration", "parentRelationship" });
             } else {
-                return new NSDictionary<String,Object>(pc, "parentPageConfiguration");
+                return new NSDictionary(pc, "parentPageConfiguration");
             }
         }
         return null;
@@ -468,28 +454,6 @@ public class ERMODEditRelationshipPage extends ERD2WPage implements ERMEditRelat
 	public boolean userPreferencesCanSpecifySorting() {
 		return !"printerFriendly".equals(d2wContext().valueForKey(Keys.subTask));
 	}
-	
-	// BATCH SIZE
-	
-    /**
-     * @return the batch size as set via ERCPreference or the rules
-     */
-    public int numberOfObjectsPerBatch() {
-        if (_batchSize == null) {
-            Integer batchSize = ERXValueUtilities.IntegerValueWithDefault(d2wContext()
-                    .valueForKey("defaultBatchSize"), 5);
-            Object batchSizePref = userPreferencesValueForPageConfigurationKey("batchSize");
-            if (batchSizePref != null) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Found batch size in user prefs " + batchSizePref);
-                }
-                batchSize = ERXValueUtilities.IntegerValueWithDefault(batchSizePref,
-                        batchSize);
-            }
-            _batchSize = batchSize;
-        }
-        return _batchSize.intValue();
-    }
     
     // ACCESSORS
     
@@ -547,7 +511,12 @@ public class ERMODEditRelationshipPage extends ERD2WPage implements ERMEditRelat
 	public WODisplayGroup relationshipDisplayGroup() {
 		if (_relationshipDisplayGroup == null) {
 			_relationshipDisplayGroup = new WODisplayGroup();
-			_relationshipDisplayGroup.setNumberOfObjectsPerBatch(numberOfObjectsPerBatch());
+			String count = (String)d2wContext().valueForKey("defaultBatchSize");
+			if (count != null) {
+				int intCount = Integer.parseInt(count);
+				_relationshipDisplayGroup.setNumberOfObjectsPerBatch(intCount);
+			}
+			
 		}
 		return _relationshipDisplayGroup;
 	}
@@ -582,29 +551,6 @@ public class ERMODEditRelationshipPage extends ERD2WPage implements ERMEditRelat
 		return relationshipDisplayGroup().displayedObjects().count();
 	}
 	
-	/** Should the 'new' button be displayed? */
-	public boolean isEntityCreatable() {
-		return ERXValueUtilities.booleanValue(d2wContext().valueForKey(Keys.isEntityCreatable)) && !isEntityReadOnly();
-	}
-	
-    public boolean shouldShowQueryRelatedButton() {
-        boolean shouldShowQueryRelatedButton = ERXValueUtilities
-                .booleanValue(d2wContext().valueForKey(Keys.shouldShowQueryRelatedButton));
-        if (isRelationshipOwned()) {
-            // if the relationship is owned, search makes no sense
-            shouldShowQueryRelatedButton = false;
-        }
-        return shouldShowQueryRelatedButton;
-    }
-
-    public boolean isRelationshipOwned() {
-        boolean isRelationshipOwned = false;
-        if (masterObject().allPropertyKeys().contains(relationshipKey())) {
-            isRelationshipOwned = masterObject().classDescription().ownsDestinationObjectsForRelationshipKey(relationshipKey());
-        }
-        return isRelationshipOwned;
-    }
-
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.writeObject(_masterObject);
 		out.writeObject(_objectToAddToRelationship);
