@@ -24,13 +24,14 @@
     <property name="framework.erjars.commons.lang" value="commons-lang-2.6.jar" />
     <property name="framework.erjars.commons.lang3" value="commons-lang3-3.4.jar" />
     <property name="framework.erjars.fluent-hc" value="fluent-hc-4.3.6.jar" />
+    <property name="framework.erjars.hamcrest-core" value="hamcrest-core-1.3.jar" />
     <property name="framework.erjars.httpclient" value="httpclient-4.3.6.jar" />
     <property name="framework.erjars.httpclient-cache" value="httpclient-cache-4.3.6.jar" />
     <property name="framework.erjars.httpcore" value="httpcore-4.3.3.jar" />
     <property name="framework.erjars.httpmime" value="httpmime-4.3.6.jar" />
     <property name="framework.erjars.icu4j" value="icu4j-3_8_1.jar" />
     <property name="framework.erjars.joda" value="joda-time-2.9.1.jar" />
-    <property name="framework.erjars.junit" value="junit-4.10.jar" />
+    <property name="framework.erjars.junit" value="junit-4.12.jar" />
     <property name="framework.erjars.log4j" value="log4j-1.2.17.jar" />
     <property name="framework.erjars.ognl" value="ognl-3.1.jar" />
     <property name="framework.erjars.slf4j.api" value="slf4j-api-1.7.12.jar" />
@@ -47,6 +48,7 @@
                         <available file="Frameworks/Core/ERJars/Libraries/${framework.erjars.commons.lang}" />
                         <available file="Frameworks/Core/ERJars/Libraries/${framework.erjars.commons.lang3}" />
                         <available file="Frameworks/Core/ERJars/Libraries/${framework.erjars.fluent-hc}" />
+                        <available file="Frameworks/Core/ERJars/Libraries/${framework.erjars.hamcrest-core}" />
                         <available file="Frameworks/Core/ERJars/Libraries/${framework.erjars.httpclient}" />
                         <available file="Frameworks/Core/ERJars/Libraries/${framework.erjars.httpclient-cache}" />
                         <available file="Frameworks/Core/ERJars/Libraries/${framework.erjars.httpcore}" />
@@ -1252,6 +1254,9 @@
         <property file="${user.home}${file.separator}Library${file.separator}wobuild.properties"/>
 
         <java classname="er.erxtest.Application" fork="true" failonerror="true" maxmemory="128m" dir="${build.root}/ERXTest.woa">
+            <jvmarg value="-Duser.timezone=US/Pacific"/>
+            <jvmarg value="-Duser.country=US"/>
+            <jvmarg value="-Duser.language=en"/>
             <arg value="-DWORootDirectory=/System" />
             <arg value="-DWOLocalRootDirectory=" />
             <arg value="-DWOUserDirectory=${build.root}/ERXTest.woa" />
@@ -1272,6 +1277,7 @@
                 <pathelement location="${build.root}/ERJars.${fRJ}/${framework.erjars.icu4j}" />
                 <pathelement location="${build.root}/ERJars.${fRJ}/${framework.erjars.joda}" />
                 <pathelement location="${build.root}/ERJars.${fRJ}/${framework.erjars.junit}" />
+                <pathelement location="${build.root}/ERJars.${fRJ}/${framework.erjars.hamcrest-core}" />
                 <pathelement location="${build.root}/ERJars.${fRJ}/${framework.erjars.log4j}" />
                 <pathelement location="${build.root}/ERJars.${fRJ}/${framework.erjars.ognl}" />
                 <pathelement location="${build.root}/ERJars.${fRJ}/${framework.erjars.slf4j.api}" />

@@ -6,10 +6,12 @@ import com.webobjects.eocontrol.*;
 import com.webobjects.foundation.*;
 import java.math.*;
 import java.util.*;
-import org.apache.log4j.Logger;
 
 import er.extensions.eof.*;
 import er.extensions.foundation.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("all")
 public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
@@ -25,6 +27,7 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   public static final ERXKey<Boolean> MANAGER = new ERXKey<Boolean>("manager");
   public static final ERXKey<String> STATE = new ERXKey<String>("state");
   public static final ERXKey<String> ZIPCODE = new ERXKey<String>("zipcode");
+
   // Relationship Keys
   public static final ERXKey<er.erxtest.model.Company> COMPANY = new ERXKey<er.erxtest.model.Company>("company");
   public static final ERXKey<er.erxtest.model.Department> DEPARTMENT = new ERXKey<er.erxtest.model.Department>("department");
@@ -41,13 +44,14 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   public static final String MANAGER_KEY = MANAGER.key();
   public static final String STATE_KEY = STATE.key();
   public static final String ZIPCODE_KEY = ZIPCODE.key();
+
   // Relationships
   public static final String COMPANY_KEY = COMPANY.key();
   public static final String DEPARTMENT_KEY = DEPARTMENT.key();
   public static final String PAYCHECKS_KEY = PAYCHECKS.key();
   public static final String ROLES_KEY = ROLES.key();
 
-  private static Logger LOG = Logger.getLogger(_Employee.class);
+  private static final Logger log = LoggerFactory.getLogger(_Employee.class);
 
   public Employee localInstanceIn(EOEditingContext editingContext) {
     Employee localInstance = (Employee)EOUtilities.localInstanceOfObject(editingContext, this);
@@ -62,9 +66,7 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   }
 
   public void setAddress1(String value) {
-    if (_Employee.LOG.isDebugEnabled()) {
-    	_Employee.LOG.debug( "updating address1 from " + address1() + " to " + value);
-    }
+    log.debug( "updating address1 from {} to {}", address1(), value);
     takeStoredValueForKey(value, _Employee.ADDRESS1_KEY);
   }
 
@@ -73,9 +75,7 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   }
 
   public void setAddress2(String value) {
-    if (_Employee.LOG.isDebugEnabled()) {
-    	_Employee.LOG.debug( "updating address2 from " + address2() + " to " + value);
-    }
+    log.debug( "updating address2 from {} to {}", address2(), value);
     takeStoredValueForKey(value, _Employee.ADDRESS2_KEY);
   }
 
@@ -84,9 +84,7 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   }
 
   public void setBestSalesTotal(java.math.BigDecimal value) {
-    if (_Employee.LOG.isDebugEnabled()) {
-    	_Employee.LOG.debug( "updating bestSalesTotal from " + bestSalesTotal() + " to " + value);
-    }
+    log.debug( "updating bestSalesTotal from {} to {}", bestSalesTotal(), value);
     takeStoredValueForKey(value, _Employee.BEST_SALES_TOTAL_KEY);
   }
 
@@ -95,9 +93,7 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   }
 
   public void setCity(String value) {
-    if (_Employee.LOG.isDebugEnabled()) {
-    	_Employee.LOG.debug( "updating city from " + city() + " to " + value);
-    }
+    log.debug( "updating city from {} to {}", city(), value);
     takeStoredValueForKey(value, _Employee.CITY_KEY);
   }
 
@@ -106,9 +102,7 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   }
 
   public void setFirstName(String value) {
-    if (_Employee.LOG.isDebugEnabled()) {
-    	_Employee.LOG.debug( "updating firstName from " + firstName() + " to " + value);
-    }
+    log.debug( "updating firstName from {} to {}", firstName(), value);
     takeStoredValueForKey(value, _Employee.FIRST_NAME_KEY);
   }
 
@@ -117,9 +111,7 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   }
 
   public void setLastName(String value) {
-    if (_Employee.LOG.isDebugEnabled()) {
-    	_Employee.LOG.debug( "updating lastName from " + lastName() + " to " + value);
-    }
+    log.debug( "updating lastName from {} to {}", lastName(), value);
     takeStoredValueForKey(value, _Employee.LAST_NAME_KEY);
   }
 
@@ -128,9 +120,7 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   }
 
   public void setManager(Boolean value) {
-    if (_Employee.LOG.isDebugEnabled()) {
-    	_Employee.LOG.debug( "updating manager from " + manager() + " to " + value);
-    }
+    log.debug( "updating manager from {} to {}", manager(), value);
     takeStoredValueForKey(value, _Employee.MANAGER_KEY);
   }
 
@@ -139,9 +129,7 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   }
 
   public void setState(String value) {
-    if (_Employee.LOG.isDebugEnabled()) {
-    	_Employee.LOG.debug( "updating state from " + state() + " to " + value);
-    }
+    log.debug( "updating state from {} to {}", state(), value);
     takeStoredValueForKey(value, _Employee.STATE_KEY);
   }
 
@@ -150,62 +138,56 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   }
 
   public void setZipcode(String value) {
-    if (_Employee.LOG.isDebugEnabled()) {
-    	_Employee.LOG.debug( "updating zipcode from " + zipcode() + " to " + value);
-    }
+    log.debug( "updating zipcode from {} to {}", zipcode(), value);
     takeStoredValueForKey(value, _Employee.ZIPCODE_KEY);
   }
 
   public er.erxtest.model.Company company() {
     return (er.erxtest.model.Company)storedValueForKey(_Employee.COMPANY_KEY);
   }
-  
+
   public void setCompany(er.erxtest.model.Company value) {
     takeStoredValueForKey(value, _Employee.COMPANY_KEY);
   }
 
   public void setCompanyRelationship(er.erxtest.model.Company value) {
-    if (_Employee.LOG.isDebugEnabled()) {
-      _Employee.LOG.debug("updating company from " + company() + " to " + value);
-    }
+    log.debug("updating company from {} to {}", company(), value);
     if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
-    	setCompany(value);
+      setCompany(value);
     }
     else if (value == null) {
-    	er.erxtest.model.Company oldValue = company();
-    	if (oldValue != null) {
-    		removeObjectFromBothSidesOfRelationshipWithKey(oldValue, _Employee.COMPANY_KEY);
+      er.erxtest.model.Company oldValue = company();
+      if (oldValue != null) {
+        removeObjectFromBothSidesOfRelationshipWithKey(oldValue, _Employee.COMPANY_KEY);
       }
     } else {
-    	addObjectToBothSidesOfRelationshipWithKey(value, _Employee.COMPANY_KEY);
+      addObjectToBothSidesOfRelationshipWithKey(value, _Employee.COMPANY_KEY);
     }
   }
-  
+
   public er.erxtest.model.Department department() {
     return (er.erxtest.model.Department)storedValueForKey(_Employee.DEPARTMENT_KEY);
   }
-  
+
   public void setDepartment(er.erxtest.model.Department value) {
     takeStoredValueForKey(value, _Employee.DEPARTMENT_KEY);
   }
 
   public void setDepartmentRelationship(er.erxtest.model.Department value) {
-    if (_Employee.LOG.isDebugEnabled()) {
-      _Employee.LOG.debug("updating department from " + department() + " to " + value);
-    }
+    log.debug("updating department from {} to {}", department(), value);
     if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
-    	setDepartment(value);
+      setDepartment(value);
     }
     else if (value == null) {
-    	er.erxtest.model.Department oldValue = department();
-    	if (oldValue != null) {
-    		removeObjectFromBothSidesOfRelationshipWithKey(oldValue, _Employee.DEPARTMENT_KEY);
+      er.erxtest.model.Department oldValue = department();
+      if (oldValue != null) {
+        removeObjectFromBothSidesOfRelationshipWithKey(oldValue, _Employee.DEPARTMENT_KEY);
       }
     } else {
-    	addObjectToBothSidesOfRelationshipWithKey(value, _Employee.DEPARTMENT_KEY);
+      addObjectToBothSidesOfRelationshipWithKey(value, _Employee.DEPARTMENT_KEY);
     }
   }
-  
+
   public NSArray<er.erxtest.model.Paycheck> paychecks() {
     return (NSArray<er.erxtest.model.Paycheck>)storedValueForKey(_Employee.PAYCHECKS_KEY);
   }
@@ -222,16 +204,13 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
     NSArray<er.erxtest.model.Paycheck> results;
     if (fetch) {
       EOQualifier fullQualifier;
-      EOQualifier inverseQualifier = new EOKeyValueQualifier(er.erxtest.model.Paycheck.EMPLOYEE_KEY, EOQualifier.QualifierOperatorEqual, this);
-    	
+      EOQualifier inverseQualifier = ERXQ.equals(er.erxtest.model.Paycheck.EMPLOYEE_KEY, this);
+
       if (qualifier == null) {
         fullQualifier = inverseQualifier;
       }
       else {
-        NSMutableArray<EOQualifier> qualifiers = new NSMutableArray<EOQualifier>();
-        qualifiers.addObject(qualifier);
-        qualifiers.addObject(inverseQualifier);
-        fullQualifier = new EOAndQualifier(qualifiers);
+        fullQualifier = ERXQ.and(qualifier, inverseQualifier);
       }
 
       results = er.erxtest.model.Paycheck.fetchPaychecks(editingContext(), fullQualifier, sortOrderings);
@@ -247,7 +226,7 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
     }
     return results;
   }
-  
+
   public void addToPaychecks(er.erxtest.model.Paycheck object) {
     includeObjectIntoPropertyWithKey(object, _Employee.PAYCHECKS_KEY);
   }
@@ -257,33 +236,27 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   }
 
   public void addToPaychecksRelationship(er.erxtest.model.Paycheck object) {
-    if (_Employee.LOG.isDebugEnabled()) {
-      _Employee.LOG.debug("adding " + object + " to paychecks relationship");
-    }
+    log.debug("adding {} to paychecks relationship", object);
     if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
-    	addToPaychecks(object);
+      addToPaychecks(object);
     }
     else {
-    	addObjectToBothSidesOfRelationshipWithKey(object, _Employee.PAYCHECKS_KEY);
+      addObjectToBothSidesOfRelationshipWithKey(object, _Employee.PAYCHECKS_KEY);
     }
   }
 
   public void removeFromPaychecksRelationship(er.erxtest.model.Paycheck object) {
-    if (_Employee.LOG.isDebugEnabled()) {
-      _Employee.LOG.debug("removing " + object + " from paychecks relationship");
-    }
+    log.debug("removing {} from paychecks relationship", object);
     if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
-    	removeFromPaychecks(object);
+      removeFromPaychecks(object);
     }
     else {
-    	removeObjectFromBothSidesOfRelationshipWithKey(object, _Employee.PAYCHECKS_KEY);
+      removeObjectFromBothSidesOfRelationshipWithKey(object, _Employee.PAYCHECKS_KEY);
     }
   }
 
   public er.erxtest.model.Paycheck createPaychecksRelationship() {
-    EOClassDescription eoClassDesc = EOClassDescription.classDescriptionForEntityName( er.erxtest.model.Paycheck.ENTITY_NAME );
-    EOEnterpriseObject eo = eoClassDesc.createInstanceWithEditingContext(editingContext(), null);
-    editingContext().insertObject(eo);
+    EOEnterpriseObject eo = EOUtilities.createAndInsertInstance(editingContext(),  er.erxtest.model.Paycheck.ENTITY_NAME );
     addObjectToBothSidesOfRelationshipWithKey(eo, _Employee.PAYCHECKS_KEY);
     return (er.erxtest.model.Paycheck) eo;
   }
@@ -319,7 +292,7 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
       }
     return results;
   }
-  
+
   public void addToRoles(er.erxtest.model.Role object) {
     includeObjectIntoPropertyWithKey(object, _Employee.ROLES_KEY);
   }
@@ -329,33 +302,27 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   }
 
   public void addToRolesRelationship(er.erxtest.model.Role object) {
-    if (_Employee.LOG.isDebugEnabled()) {
-      _Employee.LOG.debug("adding " + object + " to roles relationship");
-    }
+    log.debug("adding {} to roles relationship", object);
     if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
-    	addToRoles(object);
+      addToRoles(object);
     }
     else {
-    	addObjectToBothSidesOfRelationshipWithKey(object, _Employee.ROLES_KEY);
+      addObjectToBothSidesOfRelationshipWithKey(object, _Employee.ROLES_KEY);
     }
   }
 
   public void removeFromRolesRelationship(er.erxtest.model.Role object) {
-    if (_Employee.LOG.isDebugEnabled()) {
-      _Employee.LOG.debug("removing " + object + " from roles relationship");
-    }
+    log.debug("removing {} from roles relationship", object);
     if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
-    	removeFromRoles(object);
+      removeFromRoles(object);
     }
     else {
-    	removeObjectFromBothSidesOfRelationshipWithKey(object, _Employee.ROLES_KEY);
+      removeObjectFromBothSidesOfRelationshipWithKey(object, _Employee.ROLES_KEY);
     }
   }
 
   public er.erxtest.model.Role createRolesRelationship() {
-    EOClassDescription eoClassDesc = EOClassDescription.classDescriptionForEntityName( er.erxtest.model.Role.ENTITY_NAME );
-    EOEnterpriseObject eo = eoClassDesc.createInstanceWithEditingContext(editingContext(), null);
-    editingContext().insertObject(eo);
+    EOEnterpriseObject eo = EOUtilities.createAndInsertInstance(editingContext(),  er.erxtest.model.Role.ENTITY_NAME );
     addObjectToBothSidesOfRelationshipWithKey(eo, _Employee.ROLES_KEY);
     return (er.erxtest.model.Role) eo;
   }
@@ -377,10 +344,10 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
 , String lastName
 , Boolean manager
 , er.erxtest.model.Company company) {
-    Employee eo = (Employee) EOUtilities.createAndInsertInstance(editingContext, _Employee.ENTITY_NAME);    
-		eo.setFirstName(firstName);
-		eo.setLastName(lastName);
-		eo.setManager(manager);
+    Employee eo = (Employee) EOUtilities.createAndInsertInstance(editingContext, _Employee.ENTITY_NAME);
+    eo.setFirstName(firstName);
+    eo.setLastName(lastName);
+    eo.setManager(manager);
     eo.setCompanyRelationship(company);
     return eo;
   }
@@ -399,13 +366,12 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
 
   public static NSArray<Employee> fetchEmployees(EOEditingContext editingContext, EOQualifier qualifier, NSArray<EOSortOrdering> sortOrderings) {
     ERXFetchSpecification<Employee> fetchSpec = new ERXFetchSpecification<Employee>(_Employee.ENTITY_NAME, qualifier, sortOrderings);
-    fetchSpec.setIsDeep(true);
     NSArray<Employee> eoObjects = fetchSpec.fetchObjects(editingContext);
     return eoObjects;
   }
 
   public static Employee fetchEmployee(EOEditingContext editingContext, String keyName, Object value) {
-    return _Employee.fetchEmployee(editingContext, new EOKeyValueQualifier(keyName, EOQualifier.QualifierOperatorEqual, value));
+    return _Employee.fetchEmployee(editingContext, ERXQ.equals(keyName, value));
   }
 
   public static Employee fetchEmployee(EOEditingContext editingContext, EOQualifier qualifier) {
@@ -425,7 +391,7 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
   }
 
   public static Employee fetchRequiredEmployee(EOEditingContext editingContext, String keyName, Object value) {
-    return _Employee.fetchRequiredEmployee(editingContext, new EOKeyValueQualifier(keyName, EOQualifier.QualifierOperatorEqual, value));
+    return _Employee.fetchRequiredEmployee(editingContext, ERXQ.equals(keyName, value));
   }
 
   public static Employee fetchRequiredEmployee(EOEditingContext editingContext, EOQualifier qualifier) {
@@ -448,11 +414,11 @@ public abstract class _Employee extends er.extensions.eof.ERXGenericRecord {
     fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
     return (NSArray<er.erxtest.model.Employee>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
-  
+
   public static NSArray<er.erxtest.model.Employee> fetchPlebs(EOEditingContext editingContext)
   {
     EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("plebs", _Employee.ENTITY_NAME);
     return (NSArray<er.erxtest.model.Employee>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
-  
+
 }
